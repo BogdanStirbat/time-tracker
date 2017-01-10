@@ -3,8 +3,36 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Time Tracker</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 </head>
 <body>
-<p>Hello!</p>
+    <h2>Activities</h2>
+
+    <div ng-app="timeTracker" ng-controller="activitiesTracker">
+        <ul>
+            <li ng-repeat="x in activities">
+                {{x.name}} - {{x.time}} <span ng-click="removeActivity($index)">x</span>
+            </li>
+        </ul>
+
+        <label>Name: </label><input ng-model="newActivityName"> <label>Time (xh ym): </label> <input ng-model="newActivityTime">
+        <button ng-click="addActivity()">Add</button>
+    </div>
+
+    <script>
+        var app = angular.module('timeTracker', []);
+        app.controller('activitiesTracker', function($scope) {
+            $scope.activities = [];
+            $scope.addActivity = function() {
+                newActivity = {name: $scope.newActivityName, time: $scope.newActivityTime};
+                $scope.activities.push(newActivity);
+                $scope.newActivityName = '';
+                $scope.newActivityTime = '';
+            }
+            $scope.removeActivity = function(x) {
+                $scope.activities.splice(x, 1);
+            }
+        });
+    </script>
 </body>
 </html>
