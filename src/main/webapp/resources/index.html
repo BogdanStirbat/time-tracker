@@ -19,20 +19,6 @@
         <button ng-click="addActivity()">Add</button>
     </div>
 
-    <script>
-        var app = angular.module('timeTracker', []);
-        app.controller('activitiesTracker', function($scope) {
-            $scope.activities = [];
-            $scope.addActivity = function() {
-                newActivity = {name: $scope.newActivityName, time: $scope.newActivityTime};
-                $scope.activities.push(newActivity);
-                $scope.newActivityName = '';
-                $scope.newActivityTime = '';
-            }
-            $scope.removeActivity = function(x) {
-                $scope.activities.splice(x, 1);
-            }
-        });
-    </script>
+    <script src="/resources/js/activities.js"></script>
 </body>
 </html>
