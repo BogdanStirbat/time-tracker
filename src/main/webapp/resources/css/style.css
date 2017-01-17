@@ -1,0 +1,60 @@
+body {
+  color: #09a0f6;
+  margin: 1em;
+  padding: 1em;
+  font-family: 'Open Sans';
+  font-size: 16px;
+  font-weight: 300;
+  background-color: #ffffff; 
+}
+
+.btn {
+  font-family: 'Open Sans';
+  font-size: 1em;
+  font-weight: 300;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1,75em;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+  margin-top: 0.3em;
+  margin-bottom: 1.25em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 0.3em;
+  transition: all 0.3s;
+  color: #ffffff;
+  background-color: #09a0f6;
+  border: 0em; 
+}
+
+.btn:hover {
+    text-decoration: none; 
+    opacity: 0.8; 
+}
+
+.activity-lister {
+	border-style: none none solid none;
+	width: 5em;
+	display: inline;
+}
+
+input.small  {
+	width: 2em;
+}
+
+table.right {
+	float: right;
+}
+
+p.left {
+	float: left;
+}
+
+table.time {
+	padding-top: 0.8em;
+}

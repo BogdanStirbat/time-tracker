@@ -3,7 +3,8 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Time Tracker</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="/resources/js/angular.1.4.8.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
     <h2>Activities</h2>
@@ -11,14 +12,62 @@
     <div ng-app="timeTracker" ng-controller="activitiesTracker">
         <ul>
             <li ng-repeat="x in activities">
-                {{x.name}} - {{x.time}} <span ng-click="removeActivity($index)">x</span>
+                {{x.name}} - {{x.time.hours}}h:{{x.time.minutes}}m <span
+                    ng-click="removeActivity($index)">x</span>
             </li>
         </ul>
+        
+        <section>
+            <h3>Add new Activity</h3>
+            <label>Name: </label><input ng-model="newActivityName">
 
-        <label>Name: </label><input ng-model="newActivityName"> <label>Time (xh ym): </label> <input ng-model="newActivityTime">
-        <button ng-click="addActivity()">Add</button>
+            <section>
+                <p class="left">Time spent </p>
+
+                <table class="time">
+                    <tr>
+                        <th><label>Hours: </label></th>
+                        <th><input class="small" ng-model="newActivityHour"></th>
+                    </tr>
+                    <tr>
+                        <th><label>Minutes:</label></th>
+                        <th><input class="small" ng-model="newActivityMinute"></th>
+                    </tr>
+                </table>
+            </section>
+        </section>
+        <br>
+        <div class="btn" ng-click="addActivity()">Add</div>
     </div>
 
-    <script src="/resources/js/activities.js"></script>
+    <script>
+        var app = angular.module('timeTracker', []);
+        app.controller('activitiesTracker', function($scope) {
+            $scope.activities = [];
+            $scope.newActivityName = '';
+            $scope.newActivityHour = '';
+            $scope.newActivityMinute = '';
+            $scope.addActivity = function() {
+                name = $scope.newActivityName;
+                hours = $scope.newActivityHour;
+                minutes = $scope.newActivityMinute;
+                if (hours == '') {
+                    hours = 0;
+                }
+                if (minutes == '') {
+                    minutes = 0;
+                }
+                $scope.newActivityName = '';
+                $scope.newActivityHour = '';
+                $scope.newActivityMinute = '';
+                newActivityTime = {hours: hours, minutes: minutes};
+                newActivity = {name: name, time: newActivityTime};
+                $scope.activities.push(newActivity);
+            }
+            $scope.removeActivity = function(x) {
+                $scope.activities.splice(x, 1);
+            }
+        });
+    </script>
 </body>
 </html>
