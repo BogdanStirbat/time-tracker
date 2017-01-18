@@ -16,6 +16,8 @@
                     ng-click="removeActivity($index)">x</span>
             </li>
         </ul>
+
+        <label>Total: </label> {{totalHours}}h:{{totalMinutes}}m
         
         <section>
             <h3>Add new Activity</h3>
@@ -47,6 +49,8 @@
             $scope.newActivityName = '';
             $scope.newActivityHour = '';
             $scope.newActivityMinute = '';
+            $scope.totalHours = 0;
+            $scope.totalMinutes = 0;
             $scope.addActivity = function() {
                 name = $scope.newActivityName;
                 hours = $scope.newActivityHour;
@@ -63,9 +67,23 @@
                 newActivityTime = {hours: hours, minutes: minutes};
                 newActivity = {name: name, time: newActivityTime};
                 $scope.activities.push(newActivity);
+                adjustTotalTime();
             }
             $scope.removeActivity = function(x) {
                 $scope.activities.splice(x, 1);
+                adjustTotalTime();
+            }
+
+            var adjustTotalTime = function() {
+                var hours = 0;
+                var minutes = 0;
+                for(var i = 0; i < $scope.activities.length; i++) {
+                    var activity = $scope.activities[i];
+                    hours += parseInt(activity.time.hours, 10);
+                    minutes += parseInt(activity.time.minutes, 10);
+                }
+                $scope.totalHours = hours + Math.floor(minutes/60);
+                $scope.totalMinutes = minutes % 60;
             }
         });
     </script>
