@@ -12,7 +12,7 @@
     <div ng-app="timeTracker" ng-controller="activitiesTracker">
         <ul>
             <li ng-repeat="x in activities">
-                {{x.name}} - {{x.time.hours}}h:{{x.time.minutes}}m <span
+                {{x.name}} - {{x.duration.hours}}h:{{x.duration.minutes}}m <span
                     ng-click="removeActivity($index)">x</span>
             </li>
         </ul>
@@ -21,6 +21,7 @@
         
         <section>
             <h3>Add new Activity</h3>
+
             <label>Name: </label><input ng-model="newActivityName">
 
             <section>
@@ -38,6 +39,8 @@
                 </table>
             </section>
         </section>
+        <label>Date: </label><input ng-model="newActivityDate">
+        <br>
         <br>
         <div class="btn" ng-click="addActivity()">Add</div>
     </div>
@@ -49,6 +52,7 @@
             $scope.newActivityName = '';
             $scope.newActivityHour = '';
             $scope.newActivityMinute = '';
+            $scope.newActivityDate = currentDate();
             $scope.totalHours = 0;
             $scope.totalMinutes = 0;
             $scope.addActivity = function() {
@@ -65,7 +69,7 @@
                 $scope.newActivityHour = '';
                 $scope.newActivityMinute = '';
                 newActivityTime = {hours: hours, minutes: minutes};
-                newActivity = {name: name, time: newActivityTime};
+                newActivity = {name: name, duration: newActivityTime, date: $scope.newActivityDate};
                 $scope.activities.push(newActivity);
                 adjustTotalTime();
             }
@@ -74,13 +78,18 @@
                 adjustTotalTime();
             }
 
-            var adjustTotalTime = function() {
+            function currentDate() {
+                var date = new Date();
+                return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+            }
+
+            function adjustTotalTime() {
                 var hours = 0;
                 var minutes = 0;
                 for(var i = 0; i < $scope.activities.length; i++) {
                     var activity = $scope.activities[i];
-                    hours += parseInt(activity.time.hours, 10);
-                    minutes += parseInt(activity.time.minutes, 10);
+                    hours += parseInt(activity.duration.hours, 10);
+                    minutes += parseInt(activity.duration.minutes, 10);
                 }
                 $scope.totalHours = hours + Math.floor(minutes/60);
                 $scope.totalMinutes = minutes % 60;
