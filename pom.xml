@@ -19,6 +19,7 @@
     <org.slf4j.version>1.7.21</org.slf4j.version>
     <log4j2.version>2.7</log4j2.version>
     <jetty.version>9.4.0.v20161208</jetty.version>
+    <jackson.version>2.5.4</jackson.version>
   </properties>
 
   <dependencies>
@@ -95,6 +96,14 @@
       <artifactId>log4j-jcl</artifactId>
       <version>${log4j2.version}</version>
     </dependency>
+
+    <!-- jackson -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
 
     <!-- javax.servlet-api -->
     <dependency>

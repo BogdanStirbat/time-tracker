@@ -7,13 +7,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class ActivityDurationReport {
+public class TimeTrackReport {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String name;
+    private String activityName;
 
     private Integer hours;
 
@@ -23,7 +23,7 @@ public class ActivityDurationReport {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    public ActivityDurationReport() {
+    public TimeTrackReport() {
 
     }
 
@@ -35,12 +35,12 @@ public class ActivityDurationReport {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getActivityName() {
+        return activityName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void getActivityName(String activityName) {
+        this.activityName = activityName;
     }
 
     public Integer getHours() {
@@ -69,9 +69,9 @@ public class ActivityDurationReport {
 
     @Override
     public String toString() {
-        return "ActivityDurationReport{" +
+        return "TimeTrackReport{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", activityName='" + activityName + '\'' +
                 ", hours=" + hours +
                 ", minutes=" + minutes +
                 ", date=" + date +
