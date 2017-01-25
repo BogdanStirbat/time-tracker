@@ -72,9 +72,10 @@
                 newActivity = {activityName: name, hours: hours, minutes: minutes, date: $scope.newActivityDate};
                 $http.post('rest/report/add', newActivity)
                 .then(function(response) {
-                    if (response.data.success == 1) {
-                        // this is needed, so all time track reports have an id (usefull when deleting)
-                        loadTimeTrackReports();
+                    if (response.data.success == true) {
+                        newActivity.id = response.data.id;
+                        $scope.activities.push(newActivity);
+                        adjustTotalTime();
                     } else {
                         alert('An error occured adding time track report!');
                     }
@@ -86,7 +87,7 @@
             $scope.removeActivity = function(x) {
                 $http.delete('rest/report/remove?id=' + $scope.activities[x].id)
                 .then(function(response) {
-                    if (response.data.success == 1) {
+                    if (response.data.success == true) {
                         $scope.activities.splice(x, 1);
                         adjustTotalTime();
                     } else {
@@ -121,6 +122,7 @@
                     for (var i=0; i < response.data.length; i++) {
                         $scope.activities.push(response.data[i]);
                     }
+                    adjustTotalTime();
                 }, function(response) {
                     console.log('An error ocurred loading all time track reports.');
                     console.log(response);

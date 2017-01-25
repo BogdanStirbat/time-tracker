@@ -16,8 +16,8 @@ public class TimeTrackReportDAOImpl implements TimeTrackReportDAO {
 
     @Override
     @Transactional
-    public void save(TimeTrackReport timeTrackReport) {
-        em.merge(timeTrackReport);
+    public TimeTrackReport save(TimeTrackReport timeTrackReport) {
+        return em.merge(timeTrackReport);
     }
 
     @Override

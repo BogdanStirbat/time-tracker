@@ -17,8 +17,8 @@ public class TimeTrackReportServiceImpl implements TimeTrackReportService {
     }
 
     @Override
-    public void save(TimeTrackReport timeTrackReport) {
-        timeTrackReportDAO.save(timeTrackReport);
+    public TimeTrackReport save(TimeTrackReport timeTrackReport) {
+        return timeTrackReportDAO.save(timeTrackReport);
     }
 
     @Override

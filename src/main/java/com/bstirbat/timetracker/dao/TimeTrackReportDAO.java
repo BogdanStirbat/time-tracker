@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TimeTrackReportDAO {
 
-    void save(TimeTrackReport timeTrackReport);
+    TimeTrackReport save(TimeTrackReport timeTrackReport);
 
     void remove(Long id);
 

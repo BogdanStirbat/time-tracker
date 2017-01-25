@@ -2,6 +2,7 @@ package com.bstirbat.timetracker.controller;
 
 
 import com.bstirbat.timetracker.model.TimeTrackReport;
+import com.bstirbat.timetracker.response.api.OperationResponse;
 import com.bstirbat.timetracker.service.TimeTrackReportService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -33,11 +34,11 @@ public class TimeTrackReportController {
         LOGGER.info("Received persist request for timeTrackReport=<{}>", timeTrackReport);
 
         try {
-            timeTrackReportService.save(timeTrackReport);
-            return "{\"success\": 1}";
+            TimeTrackReport persistedTimeTrackReport = timeTrackReportService.save(timeTrackReport);
+            return objectMapper.writeValueAsString(new OperationResponse(true, persistedTimeTrackReport.getId()));
         } catch (Exception e) {
             LOGGER.error("An error appeared saving timeTrackReport=<{}>", timeTrackReport, e);
-            return "{\"success\": 0}";
+            return "{\"success\": false}";
         }
     }
 
@@ -48,10 +49,10 @@ public class TimeTrackReportController {
 
         try {
             timeTrackReportService.remove(id);
-            return "{\"success\": 1}";
+            return objectMapper.writeValueAsString(new OperationResponse(true, id));
         } catch (Exception e) {
             LOGGER.error("An error appeared removing timeTrackReport with id=<{}>", id, e);
-            return "{\"success\": 0}";
+            return "{\"success\": false}";
         }
     }
 
@@ -65,7 +66,7 @@ public class TimeTrackReportController {
             return objectMapper.writeValueAsString(timeTrackReports);
         } catch (Exception e) {
             LOGGER.error("An error ocurred receiving all time track reports, day=<{}>", day, e);
-            return "{\"success\": 0}";
+            return "{\"success\": false}";
         }
     }
 }
