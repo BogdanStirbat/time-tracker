@@ -10,6 +10,8 @@ public interface TimeTrackReportService {
 
     void save(TimeTrackReport timeTrackReport);
 
+    void remove(Long id);
+
     /**
      * Retrieves all time track reports with the specified date.
      * @param date the date

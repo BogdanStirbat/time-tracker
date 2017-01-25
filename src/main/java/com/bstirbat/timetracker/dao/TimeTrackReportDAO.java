@@ -10,6 +10,8 @@ public interface TimeTrackReportDAO {
 
     void save(TimeTrackReport timeTrackReport);
 
+    void remove(Long id);
+
     /**
      * Retrieves all time tracking reports, between the 2 dates.
      * @param fistDate all reports having a date greater or equal to this

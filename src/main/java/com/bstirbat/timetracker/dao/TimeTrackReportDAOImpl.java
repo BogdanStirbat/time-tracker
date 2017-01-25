@@ -22,6 +22,13 @@ public class TimeTrackReportDAOImpl implements TimeTrackReportDAO {
 
     @Override
     @Transactional
+    public void remove(Long id) {
+        TimeTrackReport timeTrackReport = em.find(TimeTrackReport.class, id);
+        em.remove(timeTrackReport);
+    }
+
+    @Override
+    @Transactional
     public List<TimeTrackReport> retrieveAllBetween(Date fistDate, Date secondDate) {
         return em.createQuery("SELECT t FROM TimeTrackReport t WHERE t.date >= :fistDate AND t.date < :secondDate", TimeTrackReport.class)
                 .setParameter("fistDate", fistDate)

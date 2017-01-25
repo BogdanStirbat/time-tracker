@@ -41,6 +41,20 @@ public class TimeTrackReportController {
         }
     }
 
+    @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String removeTimeTrackReport(@RequestParam("id") Long id) {
+        LOGGER.info("Received remove request for timeTrackReport with id=<{}>", id);
+
+        try {
+            timeTrackReportService.remove(id);
+            return "{\"success\": 1}";
+        } catch (Exception e) {
+            LOGGER.error("An error appeared removing timeTrackReport with id=<{}>", id, e);
+            return "{\"success\": 0}";
+        }
+    }
+
     @RequestMapping(value = "/all/byDay", method = RequestMethod.GET)
     @ResponseBody
     public String retrieveTimeTrackReportsByDay(@RequestParam("day") @DateTimeFormat(pattern="yyyy-MM-dd") Date day) {

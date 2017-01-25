@@ -22,6 +22,11 @@ public class TimeTrackReportServiceImpl implements TimeTrackReportService {
     }
 
     @Override
+    public void remove(Long id) {
+        timeTrackReportDAO.remove(id);
+    }
+
+    @Override
     public List<TimeTrackReport> retrieveAllWithDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
