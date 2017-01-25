@@ -69,8 +69,17 @@
                 $scope.newActivityHour = '';
                 $scope.newActivityMinute = '';
                 newActivity = {activityName: name, hours: hours, minutes: minutes, date: $scope.newActivityDate};
-                $scope.activities.push(newActivity);
-                adjustTotalTime();
+                $http.post('rest/report/add', newActivity)
+                .then(function(response) {
+                    if (response.data.success == 1) {
+                        $scope.activities.push(newActivity);
+                        adjustTotalTime();
+                    } else {
+                        alert('An error occured adding time track report!');
+                    }
+                }, function(response) {
+                    alert('An error occured adding time track report!');
+                });
             }
             $scope.removeActivity = function(x) {
                 $scope.activities.splice(x, 1);
@@ -101,7 +110,7 @@
                     for (var i=0; i < response.data.length; i++) {
                         $scope.activities.push(response.data[i]);
                     }
-                }, function(response){
+                }, function(response) {
                     console.log('An error ocurred loading all time track reports.');
                     console.log(response);
                 });
