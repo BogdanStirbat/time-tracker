@@ -12,7 +12,7 @@
     <div ng-app="timeTracker" ng-controller="activitiesTracker">
         <ul>
             <li ng-repeat="x in activities">
-                {{x.name}} - {{x.duration.hours}}h:{{x.duration.minutes}}m <span
+                {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m <span
                     ng-click="removeActivity($index)">x</span>
             </li>
         </ul>
@@ -47,12 +47,12 @@
 
     <script>
         var app = angular.module('timeTracker', []);
-        app.controller('activitiesTracker', function($scope) {
-            $scope.activities = [];
+        app.controller('activitiesTracker', function($scope, $http) {
+            $scope.newActivityDate = currentDate();
+            loadTimeTrackReports();
             $scope.newActivityName = '';
             $scope.newActivityHour = '';
             $scope.newActivityMinute = '';
-            $scope.newActivityDate = currentDate();
             $scope.totalHours = 0;
             $scope.totalMinutes = 0;
             $scope.addActivity = function() {
@@ -68,8 +68,7 @@
                 $scope.newActivityName = '';
                 $scope.newActivityHour = '';
                 $scope.newActivityMinute = '';
-                newActivityTime = {hours: hours, minutes: minutes};
-                newActivity = {name: name, duration: newActivityTime, date: $scope.newActivityDate};
+                newActivity = {activityName: name, hours: hours, minutes: minutes, date: $scope.newActivityDate};
                 $scope.activities.push(newActivity);
                 adjustTotalTime();
             }
@@ -88,11 +87,25 @@
                 var minutes = 0;
                 for(var i = 0; i < $scope.activities.length; i++) {
                     var activity = $scope.activities[i];
-                    hours += parseInt(activity.duration.hours, 10);
-                    minutes += parseInt(activity.duration.minutes, 10);
+                    hours += parseInt(activity.hours, 10);
+                    minutes += parseInt(activity.minutes, 10);
                 }
                 $scope.totalHours = hours + Math.floor(minutes/60);
                 $scope.totalMinutes = minutes % 60;
+            }
+
+            function loadTimeTrackReports() {
+                $scope.activities = [];
+                $http.get('rest/report/all/byDay?day=' + $scope.newActivityDate)
+                .then(function(response) {
+                    for (var i=0; i < response.data.length; i++) {
+                        $scope.activities.push(response.data[i]);
+                    }
+                }, function(response){
+                    console.log('An error ocurred loading all time track reports.');
+                    console.log(response);
+                });
+
             }
         });
     </script>
