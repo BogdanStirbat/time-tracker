@@ -3,51 +3,80 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Time Tracker</title>
-    <script src="/resources/js/angular.1.4.8.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/resources/js/angular.1.4.8.min.js"></script> <!-- TODO: remove from resources, add CDN link -->
+    <!-- <link rel="stylesheet" type="text/css" href="/resources/css/style.css"> -->
 </head>
 <body>
-    <h2>Activities</h2>
+<div class="container">
+    <h2>Time Track Application</h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+        <li><a data-toggle="tab" href="#activities">Activities</a></li>
+        <li><a data-toggle="tab" href="#timetrack">Time Track</a></li>
+        <li><a data-toggle="tab" href="#statistics">Statistics</a></li>
+    </ul>
 
-    <div ng-app="timeTracker" ng-controller="activitiesTracker">
-        <ul>
-            <li ng-repeat="x in activities">
-                {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m <span
-                    ng-click="removeActivity($index)">x</span>
-            </li>
-        </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <p>Ever wondered where your time goes? Use this application to track your time!</p>
+            <p>From the 'Activities' tab, insert the activities you are corrently spending time on.</p>
+            <p>From the 'Time track' tab, track time spend on the activities.</p>
+            <p>From the 'Statistics' tab, view where your time went.</p>
+        </div>
+        <div id="activities" class="tab-pane fade">
+            <p>Add Activities</p>
+        </div>
+        <div id="timetrack" class="tab-pane fade">
+            <p>Track your time</p>
+            <div ng-app="timeTracker" ng-controller="timeTrackController">
+                <ul>
+                    <li ng-repeat="x in activities">
+                        {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m <span
+                            ng-click="removeActivity($index)">x</span>
+                    </li>
+                </ul>
 
-        <label>Total: </label> {{totalHours}}h:{{totalMinutes}}m
-        
-        <section>
-            <h3>Add new Activity</h3>
+                <label>Total: </label> {{totalHours}}h:{{totalMinutes}}m
 
-            <label>Name: </label><input ng-model="newActivityName">
+                <section>
+                    <h3>Add new Activity</h3>
 
-            <section>
-                <p class="left">Time spent </p>
+                    <label>Name: </label><input ng-model="newActivityName">
 
-                <table class="time">
-                    <tr>
-                        <th><label>Hours: </label></th>
-                        <th><input class="small" ng-model="newActivityHour"></th>
-                    </tr>
-                    <tr>
-                        <th><label>Minutes:</label></th>
-                        <th><input class="small" ng-model="newActivityMinute"></th>
-                    </tr>
-                </table>
-            </section>
-        </section>
-        <label>Date: </label><input ng-model="newActivityDate">
-        <br>
-        <br>
-        <div class="btn" ng-click="addActivity()">Add</div>
+                    <section>
+                        <p class="left">Time spent </p>
+
+                        <table class="time">
+                            <tr>
+                                <th><label>Hours: </label></th>
+                                <th><input class="small" ng-model="newActivityHour"></th>
+                            </tr>
+                            <tr>
+                                <th><label>Minutes:</label></th>
+                                <th><input class="small" ng-model="newActivityMinute"></th>
+                            </tr>
+                        </table>
+                    </section>
+                </section>
+                <label>Date: </label><input ng-model="newActivityDate">
+                <br>
+                <br>
+                <div class="btn" ng-click="addActivity()">Add</div>
+            </div>
+        </div>
+        <div id="statistics" class="tab-pane fade">
+            <p>View Statistics</p>
+        </div>
     </div>
+</div>
 
     <script>
-        var app = angular.module('timeTracker', []);
-        app.controller('activitiesTracker', function($scope, $http) {
+        var timeTrackApp = angular.module('timeTracker', []);
+        timeTrackApp.controller('timeTrackController', function($scope, $http) {
             $scope.newActivityDate = currentDate();
             loadTimeTrackReports();
             $scope.newActivityName = '';
@@ -127,7 +156,6 @@
                     console.log('An error ocurred loading all time track reports.');
                     console.log(response);
                 });
-
             }
         });
     </script>
