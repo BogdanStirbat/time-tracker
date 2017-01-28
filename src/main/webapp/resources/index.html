@@ -29,6 +29,19 @@
         </div>
         <div id="activities" class="tab-pane fade">
             <p>Add Activities</p>
+            <div ng-app="activityTracker" ng-controller="activityController">
+                <ul>
+                    <li ng-repeat="x in activities">
+                        {{x}} <span ng-click="removeActivity($index)">x</span>
+                    </li>
+                </ul>
+                <section>
+                    <h3>Add a new activity</h3>
+                    <label>Name: </label> <input ng-model="newActivityName">
+                    <br>
+                    <div class="btn" ng-click="addActivity()">Add</div>
+                </section>
+            </div>
         </div>
         <div id="timetrack" class="tab-pane fade">
             <p>Track your time</p>
@@ -43,7 +56,7 @@
                 <label>Total: </label> {{totalHours}}h:{{totalMinutes}}m
 
                 <section>
-                    <h3>Add new Activity</h3>
+                    <h3>Track time on an activity</h3>
 
                     <label>Name: </label><input ng-model="newActivityName">
 
@@ -75,6 +88,23 @@
 </div>
 
     <script>
+
+        var activitiesApp = angular.module('activityTracker', []);
+        activitiesApp.controller('activityController', function($scope, $http) {
+            $scope.activities = [];
+
+            $scope.addActivity = function() {
+                $scope.activities.push($scope.newActivityName);
+                $scope.newActivityName = '';
+            }
+
+            $scope.removeActivity = function(x) {
+                $scope.activities.splice(x, 1);
+            }
+        });
+
+
+
         var timeTrackApp = angular.module('timeTracker', []);
         timeTrackApp.controller('timeTrackController', function($scope, $http) {
             $scope.newActivityDate = currentDate();
