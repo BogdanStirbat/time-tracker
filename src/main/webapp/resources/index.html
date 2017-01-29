@@ -32,7 +32,7 @@
             <div id="activityTrackerApp" ng-app="activityTracker" ng-controller="activityController">
                 <ul>
                     <li ng-repeat="x in activities">
-                        {{x}} <span ng-click="removeActivity($index)">x</span>
+                        {{x.name}} <span ng-click="removeActivity($index)">x</span>
                     </li>
                 </ul>
                 <section>
@@ -94,15 +94,34 @@
             $scope.activities = [];
 
             $scope.addActivity = function() {
-                $scope.activities.push($scope.newActivityName);
-                $scope.newActivityName = '';
+                newActivity = {name: $scope.newActivityName};
+                $http.post('rest/activity/add', newActivity)
+                .then(function(response){
+                    if (response.data.success == true) {
+                        newActivity.id = response.data.id;
+                        $scope.activities.push(newActivity);
+                        $scope.newActivityName = '';
+                    } else {
+                        alert('An error ocurred adding the new activity!');
+                    }
+                }, function(response) {
+                    alert('An error ocurred adding the new activity!');
+                });
             }
 
             $scope.removeActivity = function(x) {
-                $scope.activities.splice(x, 1);
+                $http.delete('rest/activity/remove?id=' + $scope.activities[x].id)
+                .then(function(response) {
+                    if (response.data.success == true) {
+                        $scope.activities.splice(x, 1);
+                    } else {
+                        alert('An error ocurred rremoving the activity!');
+                    }
+                }, function(response) {
+                    alert('An error ocurred rremoving the activity!');
+                });
             }
         });
-
 
 
         var timeTrackApp = angular.module('timeTracker', []);
@@ -187,6 +206,7 @@
                 });
             }
         });
+
 
         angular.bootstrap(document.getElementById("timeTrackerApp"), ['timeTracker']);
     </script>
