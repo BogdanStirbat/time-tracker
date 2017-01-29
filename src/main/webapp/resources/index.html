@@ -29,7 +29,7 @@
         </div>
         <div id="activities" class="tab-pane fade">
             <p>Add Activities</p>
-            <div ng-app="activityTracker" ng-controller="activityController">
+            <div id="activityTrackerApp" ng-app="activityTracker" ng-controller="activityController">
                 <ul>
                     <li ng-repeat="x in activities">
                         {{x}} <span ng-click="removeActivity($index)">x</span>
@@ -45,11 +45,11 @@
         </div>
         <div id="timetrack" class="tab-pane fade">
             <p>Track your time</p>
-            <div ng-app="timeTracker" ng-controller="timeTrackController">
+            <div id="timeTrackerApp" ng-app="timeTracker" ng-controller="timeTrackController">
                 <ul>
-                    <li ng-repeat="x in activities">
+                    <li ng-repeat="x in timeTrackReports">
                         {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m <span
-                            ng-click="removeActivity($index)">x</span>
+                            ng-click="removeTimeTrackReport($index)">x</span>
                     </li>
                 </ul>
 
@@ -78,7 +78,7 @@
                 <label>Date: </label><input ng-model="newActivityDate">
                 <br>
                 <br>
-                <div class="btn" ng-click="addActivity()">Add</div>
+                <div class="btn" ng-click="addTimeTrackReport()">Add</div>
             </div>
         </div>
         <div id="statistics" class="tab-pane fade">
@@ -115,7 +115,7 @@
             $scope.totalHours = 0;
             $scope.totalMinutes = 0;
 
-            $scope.addActivity = function() {
+            $scope.addTimeTrackReport = function() {
                 name = $scope.newActivityName;
                 hours = $scope.newActivityHour;
                 minutes = $scope.newActivityMinute;
@@ -128,12 +128,12 @@
                 $scope.newActivityName = '';
                 $scope.newActivityHour = '';
                 $scope.newActivityMinute = '';
-                newActivity = {activityName: name, hours: hours, minutes: minutes, date: $scope.newActivityDate};
-                $http.post('rest/report/add', newActivity)
+                newTimeTrackReport = {activityName: name, hours: hours, minutes: minutes, date: $scope.newActivityDate};
+                $http.post('rest/report/add', newTimeTrackReport)
                 .then(function(response) {
                     if (response.data.success == true) {
-                        newActivity.id = response.data.id;
-                        $scope.activities.push(newActivity);
+                        newTimeTrackReport.id = response.data.id;
+                        $scope.timeTrackReports.push(newTimeTrackReport);
                         adjustTotalTime();
                     } else {
                         alert('An error occured adding time track report!');
@@ -143,11 +143,11 @@
                 });
             }
 
-            $scope.removeActivity = function(x) {
-                $http.delete('rest/report/remove?id=' + $scope.activities[x].id)
+            $scope.removeTimeTrackReport = function(x) {
+                $http.delete('rest/report/remove?id=' + $scope.timeTrackReports[x].id)
                 .then(function(response) {
                     if (response.data.success == true) {
-                        $scope.activities.splice(x, 1);
+                        $scope.timeTrackReports.splice(x, 1);
                         adjustTotalTime();
                     } else {
                         alert('An error occured removing time track report!');
@@ -165,8 +165,8 @@
             function adjustTotalTime() {
                 var hours = 0;
                 var minutes = 0;
-                for(var i = 0; i < $scope.activities.length; i++) {
-                    var activity = $scope.activities[i];
+                for(var i = 0; i < $scope.timeTrackReports.length; i++) {
+                    var activity = $scope.timeTrackReports[i];
                     hours += parseInt(activity.hours, 10);
                     minutes += parseInt(activity.minutes, 10);
                 }
@@ -175,19 +175,20 @@
             }
 
             function loadTimeTrackReports() {
-                $scope.activities = [];
+                $scope.timeTrackReports = [];
                 $http.get('rest/report/all/byDay?day=' + $scope.newActivityDate)
                 .then(function(response) {
                     for (var i=0; i < response.data.length; i++) {
-                        $scope.activities.push(response.data[i]);
+                        $scope.timeTrackReports.push(response.data[i]);
                     }
                     adjustTotalTime();
                 }, function(response) {
                     console.log('An error ocurred loading all time track reports.');
-                    console.log(response);
                 });
             }
         });
+
+        angular.bootstrap(document.getElementById("timeTrackerApp"), ['timeTracker']);
     </script>
 </body>
 </html>
