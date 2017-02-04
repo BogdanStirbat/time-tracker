@@ -48,4 +48,10 @@ public class ActivityDAOImpl implements ActivityDAO {
 
         return activities.get(0);
     }
+
+    @Override
+    public List<Activity> retrieveAll() {
+        return em.createQuery("select a from Activity a")
+                .getResultList();
+    }
 }

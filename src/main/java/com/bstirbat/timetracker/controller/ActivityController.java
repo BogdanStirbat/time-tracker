@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/activity")
 public class ActivityController {
@@ -48,6 +50,20 @@ public class ActivityController {
             return objectMapper.writeValueAsString(new OperationResponse(true, id));
         } catch (Exception e) {
             LOGGER.error("An error appeared removing activity with id=<{}>", id, e);
+            return "{\"success\": false}";
+        }
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public String retrieveAllActivities() {
+        LOGGER.info("Received retrieveAllActivities activities");
+
+        try {
+            List<Activity> activities = activityService.retrieveAll();
+            return objectMapper.writeValueAsString(activities);
+        } catch (Exception e) {
+            LOGGER.error("An error ocurred retrieving all activities", e);
             return "{\"success\": false}";
         }
     }
