@@ -8,4 +8,6 @@ public interface ActivityDAO {
     Activity save(Activity activity);
 
     void remove(Long id);
+
+    Activity find(String name);
 }

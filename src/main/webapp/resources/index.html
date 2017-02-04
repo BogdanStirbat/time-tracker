@@ -58,7 +58,7 @@
                 <section>
                     <h3>Track time on an activity</h3>
 
-                    <label>Name: </label><input ng-model="newActivityName">
+                    <label>Name: </label> <select ng-model="newActivityName" ng-options="activity.name for activity in activities"></select>
 
                     <section>
                         <p class="left">Time spent </p>
@@ -131,7 +131,7 @@
             $scope.totalMinutes = 0;
 
             $scope.addTimeTrackReport = function() {
-                name = $scope.newActivityName;
+                name = $scope.newActivityName.name;
                 hours = $scope.newActivityHour;
                 minutes = $scope.newActivityMinute;
                 if (hours == '') {

@@ -33,6 +33,6 @@ public class AppConfig {
 
     @Bean("timeTrackReportService")
     public TimeTrackReportService timeTrackReportService() {
-        return new TimeTrackReportServiceImpl(timeTrackReportDAO());
+        return new TimeTrackReportServiceImpl(activityDAO(), timeTrackReportDAO());
     }
 }
