@@ -11,7 +11,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="/resources/css/style.css"> -->
 </head>
 <body>
-<div class="container">
+<div class="container"  ng-app="timeTracker" ng-controller="timeTrackController">
     <h2>Time Track Application</h2>
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
@@ -29,7 +29,7 @@
         </div>
         <div id="activities" class="tab-pane fade">
             <p>Add Activities</p>
-            <div id="activityTrackerApp" ng-app="activityTracker" ng-controller="activityController">
+            <div>
                 <ul>
                     <li ng-repeat="x in activities">
                         {{x.name}} <span ng-click="removeActivity($index)">x</span>
@@ -45,7 +45,7 @@
         </div>
         <div id="timetrack" class="tab-pane fade">
             <p>Track your time</p>
-            <div id="timeTrackerApp" ng-app="timeTracker" ng-controller="timeTrackController">
+            <div>
                 <ul>
                     <li ng-repeat="x in timeTrackReports">
                         {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m <span
@@ -89,8 +89,8 @@
 
     <script>
 
-        var activitiesApp = angular.module('activityTracker', []);
-        activitiesApp.controller('activityController', function($scope, $http) {
+        var timeTrackApp = angular.module('timeTracker', []);
+        timeTrackApp.controller('timeTrackController', function($scope, $http) {
             $scope.activities = [];
 
             $scope.addActivity = function() {
@@ -121,11 +121,7 @@
                     alert('An error ocurred rremoving the activity!');
                 });
             }
-        });
 
-
-        var timeTrackApp = angular.module('timeTracker', []);
-        timeTrackApp.controller('timeTrackController', function($scope, $http) {
             $scope.newActivityDate = currentDate();
             loadTimeTrackReports();
             $scope.newActivityName = '';
@@ -206,9 +202,6 @@
                 });
             }
         });
-
-
-        angular.bootstrap(document.getElementById("timeTrackerApp"), ['timeTracker']);
     </script>
 </body>
 </html>
