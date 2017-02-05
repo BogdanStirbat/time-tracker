@@ -55,4 +55,9 @@ public class TimeTrackReportServiceImpl implements TimeTrackReportService {
 
         return timeTrackReportDAO.retrieveAllBetween(firstDate, secondDate);
     }
+
+    @Override
+    public List<TimeTrackReport> retrieveAllWithinInterval(Date from, Date to) {
+        return timeTrackReportDAO.retrieveAllBetween(from, to);
+    }
 }

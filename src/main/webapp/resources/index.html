@@ -75,7 +75,7 @@
                         </table>
                     </section>
                 </section>
-                <label>Date: </label><input ng-model="newActivityDate">
+                <label>Date: </label><input ng-model="newActivityDate"> <div class="btn" ng-click="changeDate()">Change</div>
                 <br>
                 <br>
                 <div class="btn" ng-click="addTimeTrackReport()">Add</div>
@@ -83,6 +83,16 @@
         </div>
         <div id="statistics" class="tab-pane fade">
             <p>View Statistics</p>
+            <div>
+                <ul>
+                    <li ng-repeat="x in statistics">
+                        {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m
+                    </li>
+                </ul>
+                <label>From: </label> <input ng-model="viewStatisticsFrom">
+                <label>To: </label> <input ng-model="viewStatisticsTo">
+                <div class="btn" ng-click="viewStatistics()">View</div>
+            </div>
         </div>
     </div>
 </div>
@@ -185,10 +195,20 @@
                 });
             }
 
+            $scope.changeDate = function() {
+                loadTimeTrackReports();
+            }
+
             function currentDate() {
                 var date = new Date();
                 return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
             }
+
+            function tomorrowDate() {
+                var date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+                return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+            }
+
 
             function adjustTotalTime() {
                 var hours = 0;
@@ -214,6 +234,37 @@
                     console.log('An error ocurred loading all time track reports.');
                 });
             }
+
+            $scope.statistics = [];
+            $scope.viewStatisticsFrom = currentDate();
+            $scope.viewStatisticsTo = tomorrowDate();
+            $scope.viewStatistics = function() {
+                $scope.statistics = [];
+                $http.get('rest/report/all/byInterval?from=' + $scope.viewStatisticsFrom + '&to=' + $scope.viewStatisticsTo)
+                .then(function(response) {
+                    for (var i=0; i<response.data.length; i++) {
+                        currentTimeTrackReport = response.data[i];
+                        var found = false;
+                        for (var j=0; j<$scope.statistics.length; j++) {
+                            if ($scope.statistics[j].activityName == currentTimeTrackReport.activityName) {
+                                var hours = parseInt(currentTimeTrackReport.hours, 10) + parseInt($scope.statistics[j].hours, 10);
+                                var minutes = parseInt(currentTimeTrackReport.minutes, 10) + parseInt($scope.statistics[j].minutes, 10);
+                                $scope.statistics[j].hours = hours + Math.floor(minutes/60);
+                                $scope.statistics[j].minutes = minutes % 60;
+                                found = true;
+                                break;
+                            }                            
+                        }
+                        if (found == false) {
+                            $scope.statistics.push({activityName: currentTimeTrackReport.activityName, hours: parseInt(currentTimeTrackReport.hours, 10), minutes: parseInt(currentTimeTrackReport.minutes, 10)});
+                        }
+                    }
+                }, function(response) {
+                    console.log('An error ocurred loading all time track reports.');
+                    alert('An error ocurred loading all time track reports.');
+                });
+            }
+
         });
     </script>
 </body>

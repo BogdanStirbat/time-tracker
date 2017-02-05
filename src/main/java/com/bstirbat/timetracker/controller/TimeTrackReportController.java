@@ -69,4 +69,19 @@ public class TimeTrackReportController {
             return "{\"success\": false}";
         }
     }
+
+    @RequestMapping(value = "/all/byInterval", method = RequestMethod.GET)
+    @ResponseBody
+    public String retrieveTimeTrackReportsByInterval(@RequestParam("from") @DateTimeFormat(pattern="yyyy-MM-dd") Date from,
+                                                     @RequestParam("to") @DateTimeFormat(pattern="yyyy-MM-dd") Date to) {
+        LOGGER.info("Received retrieve all request by interval, from=<{}>, to=<{}>", from, to);
+
+        try {
+            List<TimeTrackReport> timeTrackReports = timeTrackReportService.retrieveAllWithinInterval(from, to);
+            return objectMapper.writeValueAsString(timeTrackReports);
+        } catch (Exception e) {
+            LOGGER.error("An error ocurred receiving all time track reports by interval, from=<{}>, to=<{}>", from, to, e);
+            return "{\"success\": false}";
+        }
+    }
 }
