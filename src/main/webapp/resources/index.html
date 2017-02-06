@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/resources/js/angular.1.4.8.min.js"></script> <!-- TODO: remove from resources, add CDN link -->
-    <!-- <link rel="stylesheet" type="text/css" href="/resources/css/style.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 </head>
 <body>
 <div class="container"  ng-app="timeTracker" ng-controller="timeTrackController">
@@ -29,17 +28,17 @@
         </div>
         <div id="activities" class="tab-pane fade">
             <p>Add Activities</p>
-            <div>
+            <div class="form-group">
                 <ul>
                     <li ng-repeat="x in activities">
-                        {{x.name}} <span ng-click="removeActivity($index)">x</span>
+                        {{x.name}} <span class="glyphicon glyphicon-remove" ng-click="removeActivity($index)"></span>
                     </li>
                 </ul>
                 <section>
                     <h3>Add a new activity</h3>
                     <label>Name: </label> <input ng-model="newActivityName">
                     <br>
-                    <div class="btn" ng-click="addActivity()">Add</div>
+                    <button type="button" class="btn btn-primary" ng-click="addActivity()">Add</button>
                 </section>
             </div>
         </div>
@@ -48,37 +47,34 @@
             <div>
                 <ul>
                     <li ng-repeat="x in timeTrackReports">
-                        {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m <span
-                            ng-click="removeTimeTrackReport($index)">x</span>
+                        {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m 
+                        <span class="glyphicon glyphicon-remove" ng-click="removeTimeTrackReport($index)"></span>
                     </li>
                 </ul>
 
                 <label>Total: </label> {{totalHours}}h:{{totalMinutes}}m
 
-                <section>
-                    <h3>Track time on an activity</h3>
-
-                    <label>Name: </label> <select ng-model="newActivityName" ng-options="activity.name for activity in activities"></select>
-
+                <div class="form-group">
                     <section>
-                        <p class="left">Time spent </p>
+                        <h3>Track time on an activity</h3>
 
-                        <table class="time">
-                            <tr>
-                                <th><label>Hours: </label></th>
-                                <th><input class="small" ng-model="newActivityHour"></th>
-                            </tr>
-                            <tr>
-                                <th><label>Minutes:</label></th>
-                                <th><input class="small" ng-model="newActivityMinute"></th>
-                            </tr>
-                        </table>
+                        <label>Name: </label> <select ng-model="newActivityName"
+                                                      ng-options="activity.name for activity in activities"></select>
+
+                        <section>
+                            <p class="left">Time spent </p>
+
+                            <label>Hours: </label> <input ng-model="newActivityHour">
+                            <br>
+                            <label>Minutes:</label> <input ng-model="newActivityMinute">
+                        </section>
                     </section>
-                </section>
-                <label>Date: </label><input ng-model="newActivityDate"> <div class="btn" ng-click="changeDate()">Change</div>
-                <br>
-                <br>
-                <div class="btn" ng-click="addTimeTrackReport()">Add</div>
+                    <label>Date: </label><input ng-model="newActivityDate">
+                    <button type="button" class="btn btn-primary" ng-click="changeDate()">Change</button>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-primary" ng-click="addTimeTrackReport()">Add</button>
+                </div>
             </div>
         </div>
         <div id="statistics" class="tab-pane fade">
@@ -89,9 +85,11 @@
                         {{x.activityName}} - {{x.hours}}h:{{x.minutes}}m
                     </li>
                 </ul>
-                <label>From: </label> <input ng-model="viewStatisticsFrom">
-                <label>To: </label> <input ng-model="viewStatisticsTo">
-                <div class="btn" ng-click="viewStatistics()">View</div>
+                <div class="form-group">
+                    <label>From: </label> <input ng-model="viewStatisticsFrom">
+                    <label>To: </label> <input ng-model="viewStatisticsTo">
+                    <button type="button" class="btn btn-primary" ng-click="viewStatistics()">View</button>
+                </div>
             </div>
         </div>
     </div>
