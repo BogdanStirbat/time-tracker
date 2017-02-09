@@ -11,7 +11,9 @@ The idea of this project is to help the user see where the time is going. Just r
     ```
 
 2. Run project
- * Running SimpleSchedulerExample: 
+ * Running the project: 
   ```shell
      mvn jetty:run
  ```
+Next, open http://localhost:8080/ in your browser and explore the application!
+
