@@ -20,6 +20,8 @@
     <log4j2.version>2.7</log4j2.version>
     <jetty.version>9.4.0.v20161208</jetty.version>
     <jackson.version>2.5.4</jackson.version>
+    <junit.version>4.12</junit.version>
+    <jsonassert.version>1.4.0</jsonassert.version>
   </properties>
 
   <dependencies>
@@ -48,6 +50,11 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
       <version>${org.springframework.version}</version>
     </dependency>
 
@@ -116,8 +123,12 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.skyscreamer</groupId>
+      <artifactId>jsonassert</artifactId>
+      <version>${jsonassert.version}</version>
     </dependency>
   </dependencies>
 

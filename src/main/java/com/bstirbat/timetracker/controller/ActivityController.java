@@ -29,7 +29,6 @@ public class ActivityController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public String addActivity(@RequestBody Activity activity) {
-        LOGGER.info("Received persist request for activity=<{}>", activity);
 
         try {
             Activity persistedActivity = activityService.save(activity);
@@ -43,7 +42,6 @@ public class ActivityController {
     @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
     @ResponseBody
     public String removeTimeTrackReport(@RequestParam("id") Long id) {
-        LOGGER.info("Received remove request for activity with id=<{}>", id);
 
         try {
             activityService.remove(id);
@@ -57,7 +55,6 @@ public class ActivityController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
     public String retrieveAllActivities() {
-        LOGGER.info("Received retrieveAllActivities activities");
 
         try {
             List<Activity> activities = activityService.retrieveAll();

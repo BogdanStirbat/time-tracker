@@ -39,7 +39,7 @@ public class TimeTrackReport {
         return activityName;
     }
 
-    public void getActivityName(String activityName) {
+    public void setActivityName(String activityName) {
         this.activityName = activityName;
     }
 

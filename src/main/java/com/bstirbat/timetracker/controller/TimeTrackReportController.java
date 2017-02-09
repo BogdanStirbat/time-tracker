@@ -31,7 +31,6 @@ public class TimeTrackReportController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public String addTimeTrackReport(@RequestBody TimeTrackReport timeTrackReport) {
-        LOGGER.info("Received persist request for timeTrackReport=<{}>", timeTrackReport);
 
         try {
             TimeTrackReport persistedTimeTrackReport = timeTrackReportService.save(timeTrackReport);
@@ -45,7 +44,6 @@ public class TimeTrackReportController {
     @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
     @ResponseBody
     public String removeTimeTrackReport(@RequestParam("id") Long id) {
-        LOGGER.info("Received remove request for timeTrackReport with id=<{}>", id);
 
         try {
             timeTrackReportService.remove(id);
@@ -59,7 +57,6 @@ public class TimeTrackReportController {
     @RequestMapping(value = "/all/byDay", method = RequestMethod.GET)
     @ResponseBody
     public String retrieveTimeTrackReportsByDay(@RequestParam("day") @DateTimeFormat(pattern="yyyy-MM-dd") Date day) {
-        LOGGER.info("Received retrieve all request, day=<{}>", day);
 
         try {
             List<TimeTrackReport> timeTrackReports = timeTrackReportService.retrieveAllWithDate(day);
@@ -74,7 +71,6 @@ public class TimeTrackReportController {
     @ResponseBody
     public String retrieveTimeTrackReportsByInterval(@RequestParam("from") @DateTimeFormat(pattern="yyyy-MM-dd") Date from,
                                                      @RequestParam("to") @DateTimeFormat(pattern="yyyy-MM-dd") Date to) {
-        LOGGER.info("Received retrieve all request by interval, from=<{}>, to=<{}>", from, to);
 
         try {
             List<TimeTrackReport> timeTrackReports = timeTrackReportService.retrieveAllWithinInterval(from, to);
